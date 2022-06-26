@@ -28,6 +28,22 @@ class UserModel extends BaseModel {
             return ReturnWrapper(200, e, [])
         }
     }
+
+    async get_by_id(id) {
+        try {
+            return ReturnWrapper(200, "", [await User.findById(id).exec()])
+        } catch (e) {
+            return ReturnWrapper(200, e, [])
+        }
+    }
+
+    async get_by_email(email, password) {
+        try {
+            return ReturnWrapper(200, "", [await User.findOne({email: email, password: password}).exec()])
+        } catch (e) {
+            return ReturnWrapper(200, e, [])
+        }
+    }
 }
 
 export default new UserModel({models: {UserModel: User}})

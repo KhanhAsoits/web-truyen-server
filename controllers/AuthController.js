@@ -1,4 +1,3 @@
-import {wrapper} from "../Helper/wrapper.js";
 import {User} from "../models/contrains/Users.js";
 import jwt from 'jsonwebtoken'
 import config_ from '../config.js'
@@ -10,11 +9,16 @@ class AuthController {
     }
 
     async VerifyToken(token) {
-        return await wrapper(async (token) => {
-            let user = null
-            user = await User.find({accessToken: token}).exec()
-            return user !== null;
-        })
+        try {
+            if (token) {
+                console.log(token)
+                let user = await User.find({accessToken: token}).exec()
+                return (Array.from(user).length > 0)
+            }
+            return false;
+        } catch (e) {
+            return false
+        }
     }
 
     async GetAccessToken(email, password) {

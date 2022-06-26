@@ -1,4 +1,6 @@
 import BaseRoute from "./BaseRoute.js";
+import BookController from "../controllers/BookController.js";
+import {ReturnWrapper} from "../Helper/err.js";
 
 class BookRoute extends BaseRoute {
     constructor(route_name, verify = true) {
@@ -7,9 +9,12 @@ class BookRoute extends BaseRoute {
     }
 
     RegisterRoutes() {
-        this.router.post(`${this.router_path}/create`, (req, res, next) => {
-            if (this.VerifyToken(this.GetToken(req), next, res)) {
-
+        this.router.post(`${this.router_path}/create`, async (req, res, next) => {
+            if (await this.VerifyToken(this.GetToken(req), next, res)) {
+                console.log('here')
+                // await BookController.add(req, res);
+            }else{
+                res.send(ReturnWrapper(201,"no access token",[]))
             }
         })
     }

@@ -11,6 +11,8 @@ class UserRoute extends BaseRoute {
         this.router.post(`${this.router_path}/create`, async (req, res, next) => {
             await UserController.add(req, res)
         })
+        this.router.post(`${this.router_path}/login`, UserController.login)
+
     }
 }
 

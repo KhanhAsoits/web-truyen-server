@@ -1,21 +1,23 @@
 import BaseController from "./BaseController.js";
-import {wrapper} from "../Helper/wrapper.js";
 import BookModel from "../models/query_contrains/BookModel.js";
+import {ReturnWrapper} from "../Helper/err.js";
 
 class BookController extends BaseController {
     constructor(props) {
         super(props);
     }
 
-    async add(req, res, next) {
-        let sr_res = await wrapper(async () => {
+    async add(req, res) {
+        try {
             let cr_book = req.body?.book;
             if (cr_book) {
-                return await BookModel.create(cr_book)
+                res.send(await BookModel.create(cr_book))
             }
-        })
-        res.send(sr_res)
+            res.send(ReturnWrapper(200, "No Book Data", []))
+        } catch (e) {
+            res.send(ReturnWrapper(200, e, []))
+        }
     }
 }
 
-export default new BaseController({});
+export default new BookController({});

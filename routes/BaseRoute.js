@@ -26,12 +26,11 @@ class BaseRoute {
         return bearer_token !== null ? bearer_token : ""
     }
 
-    async VerifyToken(token, next, res) {
-        console.log(token)
+    async VerifyToken(token) {
         if (await AuthController.VerifyToken(token)) {
             return true
         } else {
-            res.send(ReturnWrapper(201, "", []))
+            return false;
         }
     }
 }

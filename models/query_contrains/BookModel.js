@@ -2,6 +2,7 @@ import BaseModel from "./BaseModel.js";
 import {ReturnWrapper} from "../../Helper/err.js";
 import {BookTag} from "../contrains/BookTag.js";
 import mongoose from "mongoose";
+import {Book} from "../contrains/Book.js";
 
 class BookModel extends BaseModel {
     constructor(props) {
@@ -11,12 +12,12 @@ class BookModel extends BaseModel {
     async create(book) {
         try {
             if (book) {
-                let new_book = new BookModel({
+                let new_book = new Book({
                     title: book?.title,
                     chapter: 0,
                     describe: book?.describe,
-                    authorId: mongoose.ObjectId(book?.authorId),
-                    categoryId: mongoose.ObjectId(book?.categoryId),
+                    authorId: book?.authorId,
+                    categoryId: book?.categoryId,
                     rate: 0,
                 })
 

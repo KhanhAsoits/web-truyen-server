@@ -7,15 +7,15 @@ class BookController extends BaseController {
         super(props);
     }
 
-    async add(req, res) {
+    async add(req) {
         try {
             let cr_book = req.body?.book;
             if (cr_book) {
-                res.send(await BookModel.create(cr_book))
+                return await BookModel.create(cr_book)
             }
-            res.send(ReturnWrapper(200, "No Book Data", []))
+           return ReturnWrapper(200, "No Book Data", [])
         } catch (e) {
-            res.send(ReturnWrapper(200, e, []))
+            return ReturnWrapper(200, e, [])
         }
     }
 }

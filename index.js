@@ -5,6 +5,8 @@ import mongoose from "mongoose";
 import BookRoute from "./routes/BookRoute.js";
 import AuthRoute from "./routes/AuthRoute.js";
 import UserRoute from "./routes/UserRoute.js";
+import CategoryRoute from "./routes/CategoryRoute.js";
+import TagRoute from "./routes/TagRoute.js";
 
 const APP = express()
 const PORT = process.env.PORT || 5000
@@ -22,6 +24,8 @@ APP.get('/', (req, res) => {
 APP.use(BookRoute)
 APP.use(AuthRoute)
 APP.use(UserRoute)
+APP.use(CategoryRoute)
+APP.use(TagRoute)
 //end route
 // not found route
 APP.use('*',(req,res,next)=>{

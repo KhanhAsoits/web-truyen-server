@@ -11,8 +11,7 @@ class BookRoute extends BaseRoute {
     RegisterRoutes() {
         this.router.post(`${this.router_path}/create`, async (req, res, next) => {
             if (await this.VerifyToken(this.GetToken(req), next, res)) {
-                console.log('here')
-                // await BookController.add(req, res);
+                res.send(await BookController.add(req, res));
             }else{
                 res.send(ReturnWrapper(201,"no access token",[]))
             }

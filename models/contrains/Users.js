@@ -6,6 +6,7 @@ const UserSchema = mongoose.Schema({
     password: {type: String, require: true, default: "no password"},
     verify: {type: Boolean, require: true, default: false},
     accessToken: {type: String, require: true, default: ""},
-    active: {type: Boolean, require: true, default: true}
+    active: {type: Boolean, require: true, default: true},
+    role: {type: Number, require: true, default: 3}
 }, {timestamps: true})
 export const User = mongoose.model('users', UserSchema)

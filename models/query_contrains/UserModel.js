@@ -11,19 +11,24 @@ class UserModel extends BaseModel {
 
     async create(username, email, password_raw) {
         try {
-            let accessToken = jwt.sign(
-                {email, password_raw}, config._secret
-            )
-            let password = jwt.sign({password_raw}, config._secret)
-            let new_user = new User({
-                name: username,
-                email: email,
-                password: password,
-                accessToken,
-                verify: false
-            })
-            await new_user.save()
-            return ReturnWrapper(200, "", [new_user])
+            let hasExit = await User.findOne({email: email}).exec()
+            console.log(hasExit)
+            if (!hasExit){
+                let accessToken = jwt.sign(
+                    {email, password_raw}, config._secret
+                )
+                let password = jwt.sign({password_raw}, config._secret)
+                let new_user = new User({
+                    name: username,
+                    email: email,
+                    password: password,
+                    accessToken,
+                    verify: false
+                })
+                await new_user.save()
+                return ReturnWrapper(200, "", [new_user])
+            }
+            return  ReturnWrapper(200,"Email has taken",[])
         } catch (e) {
             return ReturnWrapper(200, e, [])
         }

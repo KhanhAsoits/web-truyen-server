@@ -21,12 +21,29 @@ class AuthController {
         }
     }
 
+    async VerifyUser(req, res) {
+        try {
+            let [email, token] = [req.body?.email, req.body?.api_token]
+            let user = await User.findOne({email: email, verify: false}).exec()
+            if (user) {
+                if (user?.accessToken === token) {
+                    await User.findOneAndUpdate({email: email}, {verify: true}, {returnDocument: 'after'})
+                    res.send(ReturnWrapper(200, 'Verify Success', {result: true}))
+                }
+            } else {
+                res.send(ReturnWrapper(200, 'User not found'), [])
+            }
+        } catch (e) {
+
+        }
+    }
+
     async GetAccessToken(email, password) {
         try {
             let token = jwt.sign(
                 {email, password}, config_._secret,
             )
-            
+
             let res = await User.findOneAndUpdate({
                 email: email,
             }, {accessToken: token}, {returnDocument: 'after'})
@@ -35,6 +52,7 @@ class AuthController {
             if (password !== decode.password_raw) {
                 return ReturnWrapper(200, "Password Incorrect", [])
             }
+
             return res != null ? ReturnWrapper(200, "", [res]) : ReturnWrapper(200, "No found User", [])
         } catch (e) {
             return ReturnWrapper(400, e, [])

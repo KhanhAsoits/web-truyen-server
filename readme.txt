@@ -25,3 +25,7 @@ routes :
 - tags/
     path : tags/api_token=/
     method:get
+
+- user/create
+    path: user/create
+    method:post

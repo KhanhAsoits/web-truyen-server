@@ -18,7 +18,9 @@ class AuthRoute extends BaseRoute {
                 res.send(await AuthController.GetAccessToken(email,password));
             }
         })
+        this.router.post(`${this.router_path}/verifyUser/`,AuthController.VerifyUser)
     }
+
 }
 
 export default new AuthRoute('auth', true).router

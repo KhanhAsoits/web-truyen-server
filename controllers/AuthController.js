@@ -24,11 +24,12 @@ class AuthController {
     async GetAccessToken(email, password) {
         try {
             let token = jwt.sign(
-                {email, password}, config_._secret
+                {email, password}, config_._secret,
             )
+            
             let res = await User.findOneAndUpdate({
                 email: email,
-            }, {accessToken: token})
+            }, {accessToken: token}, {returnDocument: 'after'})
 
             let decode = jwt.verify(res?.password, config_._secret)
             if (password !== decode.password_raw) {

@@ -12,6 +12,7 @@ class BookModel extends BaseModel {
     async create(book) {
         try {
             if (book) {
+				console.log(book)
                 let new_book = new Book({
                     title: book?.title,
                     chapter: 0,
@@ -21,7 +22,7 @@ class BookModel extends BaseModel {
                     rate: 0,
                 })
 
-                Array.from(book.tags).forEach(async (val, key) => {
+               book.tags.forEach(async (val, key) => {
                     let new_tag = new BookTag({
                         bookId: book?.Id,
                         tagId: val?.Id,
@@ -29,10 +30,11 @@ class BookModel extends BaseModel {
                     await new_tag.save();
                 })
                 await new_book.save();
-                return ReturnWrapper(200, "", [{new_book}])
+                return ReturnWrapper(200, "", {result:true})
             }
             return ReturnWrapper(200, "SomethingErr", [])
         } catch (e) {
+			console.log(e)
             return ReturnWrapper(200, e, [])
         }
     }

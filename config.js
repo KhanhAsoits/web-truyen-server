@@ -1,3 +1,3 @@
 export default {
-    _secret: atob('a2hhbmhkYWljYQ==')
+    _secret: Buffer.from('a2hhbmhkYWljYQ==', 'base64').toString()
 }

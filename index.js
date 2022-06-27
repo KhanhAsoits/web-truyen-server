@@ -19,6 +19,7 @@ APP.use(bodyParser.json({limit: limit_transfer}))
 APP.get('/', (req, res) => {
     res.send('THIS WEB-TRUYEN API ROOT SOURCE!')
 })
+APP.use(cors())
 
 // books route
 APP.use(BookRoute)
@@ -32,7 +33,7 @@ APP.use('*',(req,res,next)=>{
     res.send('No path found , may you try add / after path')
 })
 // config cors
-APP.use(cors())
+
 
 mongoose.connect(DB_URI, {useNewUrlParser: true, useUnifiedTopology: true}).then((res) => {
     console.log('db connected')

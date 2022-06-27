@@ -22,7 +22,10 @@ class UserController {
 
         res.send(await AuthController.GetAccessToken(email, password))
     }
-
+    async get_by_id(req){
+        const id = req.params.userId
+        return await UserModel.get_by_id(id)
+    }
 }
 
 export default new UserController({})

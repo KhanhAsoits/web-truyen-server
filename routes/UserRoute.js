@@ -10,6 +10,12 @@ class UserRoute extends BaseRoute {
     RegisterRoutes() {
         this.router.post(`${this.router_path}/create`, UserController.add)
         this.router.post(`${this.router_path}/login`, UserController.login)
+        this.router.get(`${this.router_path}/userId=:userId/api_token=:api_token`, async (req, res) => {
+            if (await this.VerifyToken(this.GetToken(req))) {
+                res.send(await UserController.get_by_id(req))
+            }
+        })
+
     }
 }
 

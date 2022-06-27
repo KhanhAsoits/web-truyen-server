@@ -9,7 +9,7 @@ class CategoryRoute extends BaseRoute {
     }
 
     RegisterRoutes() {
-        this.router.get(`/?${this.router_path}/:api_token`, async (req, res, next) => {
+        this.router.get(`/?${this.router_path}/api_token=:api_token`, async (req, res, next) => {
             if (await this.VerifyToken(this.GetToken(req))) {
                 res.send(await CategoryController.getAll())
             } else {

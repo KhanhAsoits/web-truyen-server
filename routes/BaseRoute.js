@@ -1,5 +1,4 @@
 import express from "express";
-import {ReturnWrapper} from "../Helper/err.js";
 
 import config from '../config.js'
 import AuthController from "../controllers/AuthController.js";
@@ -15,10 +14,8 @@ class BaseRoute {
     GetToken(req) {
         let bearer_token = ""
         if (req.method === "GET" || req.method === "PUT") {
-            let token_string = Object.values(req.params).filter((param) => {
-                return param.startsWith('api_token')
-            }).join('') || null
-            bearer_token = token_string !== null ? token_string.slice(10, token_string.length) : ""
+            let api_token = req.params?.api_token || ''
+            bearer_token = api_token ? api_token : null
         } else {
             let raw_token = req.headers['authorization'] || req?.headers['VerifyToken']
             bearer_token = raw_token?.startsWith('Bearer') ? raw_token?.slice(7, raw_token.length) : "";

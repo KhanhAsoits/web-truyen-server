@@ -46,6 +46,7 @@ class AuthController {
 
             let res = await User.findOneAndUpdate({
                 email: email,
+                verify: true
             }, {accessToken: token}, {returnDocument: 'after'})
 
             let decode = jwt.verify(res?.password, config_._secret)

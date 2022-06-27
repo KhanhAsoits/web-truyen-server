@@ -44,7 +44,20 @@ class UserModel extends BaseModel {
 
     async get_by_email(email, password) {
         try {
-            return ReturnWrapper(200, "", [await User.findOne({email: email, password: password}).exec()])
+            let res = await User.findOne({email: email}).exec()
+
+            if (res != null) {
+                let password_ = jwt.verify(res.password, config._secret)
+                if (password_.password_raw === password) {
+                    if (res?.verify) {
+                        return ReturnWrapper(200, 'Fetch Success', [res])
+                    }
+                    return ReturnWrapper(200, "User hasn't verify", [{verify: false}])
+
+                }
+                return ReturnWrapper(200, "Password incorrect", [{result: false}])
+            }
+            return ReturnWrapper(200, "User Not Found", [])
         } catch (e) {
             return ReturnWrapper(200, e, [])
         }

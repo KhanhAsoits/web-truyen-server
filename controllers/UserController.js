@@ -1,5 +1,4 @@
 import UserModel from "../models/query_contrains/UserModel.js";
-import AuthController from "./AuthController.js";
 import {sendMail} from "../Helper/mailler.js";
 import config from "../config.js";
 
@@ -19,8 +18,13 @@ class UserController {
 
     async login(req, res) {
         const [email, password] = [req.body?.email, req.body?.password];
+        let user = await UserModel.get_by_email(email, password)
 
-        res.send(await AuthController.GetAccessToken(email, password))
+        if (Array.isArray(user?.data)?.length > 0) {
+            delete user.data[0].accessToken
+            res.send(user)
+        }
+        res.send(user)
     }
     async get_by_id(req){
         const id = req.params.userId

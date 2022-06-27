@@ -2,6 +2,8 @@ import BaseModel from "./BaseModel.js";
 import {ReturnWrapper} from "../../Helper/err.js";
 import {BookTag} from "../contrains/BookTag.js";
 import {Book} from "../contrains/Book.js";
+import {Category} from "../contrains/Category.js";
+import {User} from "../contrains/Users.js";
 
 class BookModel extends BaseModel {
     constructor(props) {
@@ -11,7 +13,7 @@ class BookModel extends BaseModel {
     async create(book) {
         try {
             if (book) {
-				console.log(book)
+                console.log(book)
                 let new_book = new Book({
                     title: book?.title,
                     chapter: 0,
@@ -40,10 +42,16 @@ class BookModel extends BaseModel {
 
     async get_by_page(limit, page) {
         try {
-            console.log(page * limit)
             let books = await Book.find().skip(page * limit).limit(limit).exec()
             if (books.length > 0) {
-                return ReturnWrapper(200, '', [books])
+                let return_books = []
+                books.forEach(async (val, index) => {
+                    let categories = await Category.findById(val?.categoryId).exec()
+                    let author = await User.findById(val?.authorId)
+                    let book = {...val, categories, author}
+                    return_books.push(book)
+                })
+                return ReturnWrapper(200, '', [return_books])
             }
             return ReturnWrapper(200, 'No Book To Fetch', [])
         } catch (e) {

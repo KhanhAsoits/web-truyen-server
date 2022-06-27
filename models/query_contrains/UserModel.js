@@ -52,7 +52,7 @@ class UserModel extends BaseModel {
                     if (res?.verify) {
                         return ReturnWrapper(200, 'Fetch Success', [res])
                     }
-                    return ReturnWrapper(200, "User hasn't verify", [{verify: false}])
+                    return ReturnWrapper(200, "User hasn't verify", [{result: false}])
 
                 }
                 return ReturnWrapper(200, "Password incorrect", [{result: false}])
